@@ -118,7 +118,7 @@ Only what has actually been observed in this checkout.
 | `get_state` always returns `kIOAccelSurfaceStateNone`; `surface_read` returns Unsupported (no surface readback path) | `VMsvga2Surface.cpp:1232-1239, 1285-1290` |
 | YUV overlay: SVGA video-overlay units (`VideoSetRegsInRange` with fence), all-or-nothing clipping (device lacks dest-clipped overlay), `clear_yuv_to_black` fills 0x10801080 (UYVY) / 0x80108010 (YUY2), master surface released in video mode so resolution changes aren't thwarted, tearing accepted (no SyncFIFO after video flush) | `VMsvga2Surface.cpp:1054-1193, 1982-2024` |
 | **It builds.** Both `ReleaseSnowLeo` and `ReleaseSnowLeoDebug`, `xcodebuild -target All`, exit 0, no source changes. Toolchain: Xcode 26.6 (17F113) on arm64 macOS 26.5 host, `SDKROOT=macosx` → MacOSX26.5.sdk (a 10.6 SDK is also installed but not used). Deployment-target warning: 10.6 below supported floor 10.13-26.5.99 — clamped, warning only | build logs `/tmp/vmsvga2-build-{release,debug}.log`, exit=0 both |
-| **Artifacts**: 4 products, all `Mach-O … x86_64` (kexts: "64-bit kext bundle"), all adhoc-signed (`codesign --force --sign -`, "Sign to Run Locally", TeamIdentifier not set) — Xcode 26 default; the 10.6 era expects none. Plist templating resolved (AC kext: `net.osx86.driver.VMsvga2Accel` v1.2.6, `IOPCIPrimaryMatch 0x040515AD`, `IOCFPlugInTypes` present). 205 warnings per config, overwhelmingly `-Winconsistent-missing-override` | `ls build/ReleaseSnowLeo/`, `file`, `codesign -dv`, `plutil -p` |
+| **Artifacts**: 4 products, all `Mach-O … x86_64` (kexts: "64-bit kext bundle"), all ad-hoc signed (`codesign --force --sign -`, "Sign to Run Locally", TeamIdentifier not set) — Xcode 26 default; the 10.6 era expects none. Plist templating resolved (AC kext: `net.osx86.driver.VMsvga2Accel` v1.2.6, `IOPCIPrimaryMatch 0x040515AD`, `IOCFPlugInTypes` present). 205 warnings per config, overwhelmingly `-Winconsistent-missing-override` | `ls build/ReleaseSnowLeo/`, `file`, `codesign -dv`, `plutil -p` |
 | **GLD binary confirms the Q2 audit**: 77 exported `gld*` symbols = 75 table entries + `gldInitializeLibrary` + `gldTerminateLibrary`; `gldGenerateTexMipmaps`/`gldGetTextureLevel` etc. absent, as the source read predicted | `nm -gU build/ReleaseSnowLeo/VMsvga2GLDriver.bundle/Contents/MacOS/VMsvga2GLDriver` |
 | Submodule pinned at `05094e5e88cec7caedbfb35e8449ed0db94bf95b`; checkout arrives uninitialized (`-` prefix in `git submodule status`) and `MacKernelSDK/` is empty until `git submodule update --init --recursive` | `git submodule status` before/after |
 | CI recipe: GitHub Actions `macos-15-intel`, `xcodebuild -project VMsvga2.xcodeproj -target All -configuration ReleaseSnowLeo(Debug)`, packages all 4 products + dSYM per config | `.github/workflows/main.yml:17-75` |
@@ -245,7 +245,7 @@ Only what has actually been observed in this checkout.
    unmeasured — measure before justifying work with it.
 4. ~~Does it build?~~ **Answered 2026-08-14 — yes.** Both configurations,
    all four targets, x86_64-only, on Xcode 26.6 / macOS 26.5 SDK / arm64 host,
-   zero source changes. Signing is Xcode-default adhoc. `.claude/rules/build.md`
+   zero source changes. Signing is Xcode-default ad-hoc. `.claude/rules/build.md`
    updated with confirmed facts. What a build does **not** establish: whether
    the binaries load on any guest OS (Q5), and whether any of the 10.6-era
    runtime assumptions survive the deployment-target clamp (warning only).
