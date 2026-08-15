@@ -66,13 +66,17 @@ remaining frontier: whether WindowServer on 10.6 will composite an
 GLD would cost if one is required. This tree is the only known worked example
 of that contract on a macOS guest.
 
-The three files that answer questions VMQemuVGA is currently asking:
+~~The three files that answer questions VMQemuVGA is currently asking:~~
+**Table superseded 2026-08-15 (user-caught)** — two of its three rows
+predate the Q2/Q3 findings and argued against the reframing above;
+struck, not deleted, so the superseded framing can't be reconstructed as
+current:
 
 | File | Question it bears on |
 |---|---|
-| `AC/UC/VMsvga2Surface.cpp` | a real `IOAccelSurface` user client — VMQemuVGA's `VMAccelSurfaceClient` is a Catalina-era design being redone for 10.6 |
-| `AC/UC/VMsvga2GLContext.cpp` | the GL context client a GLD talks to — the consumer side of the coupling question |
-| `GLD/EntryPointNames.c` | the entry-point table Apple's OpenGL loader asks a GLD for — not derivable from any public header |
+| `AC/UC/VMsvga2Surface.cpp` | a real `IOAccelSurface` user client — still valid; one of the three load-bearing files named above |
+| ~~`AC/UC/VMsvga2GLContext.cpp`~~ | ~~the GL context client a GLD talks to — the consumer side of the coupling question~~ **falsified by Q2: an Intel915-interface mock — every selector log-and-return, no decoder written, no live callers of the SVGA3D draw API** |
+| ~~`GLD/EntryPointNames.c`~~ | ~~the entry-point table Apple's OpenGL loader asks a GLD for — not derivable from any public header~~ **superseded by Q1/Q2: the table is genuine but its implementation is a forwarding trampoline over Apple's GLDs; VMQemuVGA's live questions moved to the property publication and the surface client** |
 
 ---
 
@@ -172,9 +176,13 @@ Only what has actually been observed in this checkout.
   (software), so in `USE_OWN_GLD` builds the ceiling is Apple's software
   renderer, not GMA950 hardware.
 - **Licence, tree-wide.** Sampled headers (5 files) show MIT-style or bare
-  copyright — **no SPL text found in the sample**, contradicting the SPL 2.0
-  assumption in `.claude/CLAUDE.md`. The CLAUDE.md licence section is stale or
-  wrong; headers remain the record. Full survey not done.
+  copyright — **no SPL text found in the sample**. ~~Contradicting the SPL 2.0
+  assumption in `.claude/CLAUDE.md`; that section was stale or wrong.~~
+  **Corrected 2026-08-15:** `.claude/CLAUDE.md`'s licence section was fixed
+  2026-08-14 and now records the same finding — MIT-style/bare headers,
+  "Portions Copyright (c) Apple Computer, Inc." in
+  `AC/UC/VMsvga2GLContext.cpp`, incomplete survey, no `LICENSE` file — so the
+  two files agree; per-file headers remain the record. Full survey not done.
 
 ---
 
