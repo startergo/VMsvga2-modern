@@ -143,9 +143,11 @@ Only what has actually been observed in this checkout.
   (10.6 below the 10.13 floor, warning only) changes nothing in the
   generated code; reserved-slot audit says the ABI is compatible, the rest
   is unexamined.
-- **That anything runs.** Upstream has been inactive since 2016 and targeted
-  VMware Fusion of that era. Nothing built today has been loaded on any
-  guest — this is now the tree's only open question (Q5).
+- **That anything runs.** No load has been attempted in this working
+  context: the 2026-08-14 build artifacts exist only in
+  `build/ReleaseSnowLeo*/` and this session installed and loaded nothing
+  anywhere. Whether the kexts load on any guest OS is untested — that is
+  Q5.
 - ~~How the GLD bundle is discovered~~ **Answered 2026-08-14** — see Verified.
   The earlier guess ("may be published programmatically from
   `VMsvga2Accel.cpp`") was correct. What remains unknown is only *where* Apple's
