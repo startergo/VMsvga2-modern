@@ -133,9 +133,19 @@ Only what has actually been observed in this checkout.
 
 ## Not verified — do not assume
 
-- **That anything builds.** No build has been attempted here.
+- ~~**That anything builds.**~~ **Answered 2026-08-14 — it builds.** Both
+  configurations, all four products, first attempt, zero source changes
+  (see Verified). Correction of this section's earlier text ("no build has
+  been attempted"), which was true until Q4 but was left standing here
+  after the build succeeded — the ledger contradicted its own Verified
+  table until 2026-08-14, caught by the user.
+  What the build does **not** establish: that the deployment-target clamp
+  (10.6 below the 10.13 floor, warning only) changes nothing in the
+  generated code; reserved-slot audit says the ABI is compatible, the rest
+  is unexamined.
 - **That anything runs.** Upstream has been inactive since 2016 and targeted
-  VMware Fusion of that era.
+  VMware Fusion of that era. Nothing built today has been loaded on any
+  guest — this is now the tree's only open question (Q5).
 - ~~How the GLD bundle is discovered~~ **Answered 2026-08-14** — see Verified.
   The earlier guess ("may be published programmatically from
   `VMsvga2Accel.cpp`") was correct. What remains unknown is only *where* Apple's
